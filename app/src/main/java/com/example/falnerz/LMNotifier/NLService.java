@@ -2,13 +2,11 @@ package com.example.falnerz.LMNotifier;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-
 import com.rvalerio.fgchecker.AppChecker;
 
 import java.io.File;
@@ -19,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-import static android.os.Environment.*;
+import static android.os.Environment.getExternalStoragePublicDirectory;
 
 /**
  * Created by falnerz on 7/23/18.
@@ -48,8 +46,8 @@ public class NLService extends NotificationListenerService {
 
 
     public static NotifData[] onlineNotif = {
-            new NotifData(R.id.cbWatcher,-1,"(wa{1,}tche{1,}r{1,}|wahcer{1,}|watcer{1,})"),
-            new NotifData(R.id.cbAttack,-1,"kebakaran|serangan|(atta{1,}ck|se{1,}r{1,}a{1,}n{1,}g|invade|wa{1,}r{1,})"),
+            new NotifData(R.id.cbWatcher,-1,"(pohon|(wa{1,}tche{1,}r{1,}|watcher}|watcer{1,})"),
+            new NotifData(R.id.cbAttack,-1,"(kebakaran|serangan|attacking|menyerang)"),
             new NotifData(R.id.cbScout,-1,"(intai|scout)"),
             new NotifData(R.id.cbDarkness,-1,
                     "(((5|10) minutes|1 hours) rally against a lv([3-5]) darknest)|" +
@@ -195,13 +193,13 @@ public class NLService extends NotificationListenerService {
 
             int Rid = (notifData!=null)?notifData.RId:-1;
 
-            writeToFile(
-                    "ID : "+sbn.getId()+
-                            "\nTitle : "+sbn.getNotification().tickerText+
-                            "\nRid : "+((notifData == null)?"null":notifData.notifMessage)+
-                            "\ntext : \n"+
-                            mNotification.extras.getCharSequence(Notification.EXTRA_TEXT)
-            );
+//            writeToFile(
+//                    "ID : "+sbn.getId()+
+//                            "\nTitle : "+sbn.getNotification().tickerText+
+//                            "\nRid : "+((notifData == null)?"null":notifData.notifMessage)+
+//                            "\ntext : \n"+
+//                            mNotification.extras.getCharSequence(Notification.EXTRA_TEXT)
+//            );
 
             if(isRunning && Rid != -1 && !isForeground(packageName) ){
                 Intent intent = new Intent(this,AlarmActivity.class);

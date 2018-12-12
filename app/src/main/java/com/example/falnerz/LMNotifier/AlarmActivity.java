@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.widget.Toast.LENGTH_SHORT;
 
 /**

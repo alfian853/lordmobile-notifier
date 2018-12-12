@@ -1,59 +1,37 @@
 package com.example.falnerz.LMNotifier;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity  {
-
-
 
     private static final String TAG = "debugme";
 
     SwitchCompat ntSwitch;
-    SeekBar ntSeekbar;
+    private SeekBar ntSeekbar;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     private static final int RC_SIGN_IN = 123;
 
@@ -94,31 +72,6 @@ public class MainActivity extends AppCompatActivity  {
         mp.setLooping(true);
         final AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 //        mp.start();
-
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged: ");
-                    List<AuthUI.IdpConfig> providers = Arrays.asList(
-                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                            new AuthUI.IdpConfig.GoogleBuilder().build()
-                    );
-                    // Create and launch sign-in intent
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setAvailableProviders(providers)
-                                    .build(),
-                            RC_SIGN_IN);
-
-                }
-            }
-        };
-
 
         ntSwitch = findViewById(R.id.ntSwitch);
         ntSeekbar = findViewById(R.id.ntSeekBar);
@@ -176,29 +129,9 @@ public class MainActivity extends AppCompatActivity  {
         initCheckBox();
 
 
+        Intent intent = new Intent(this,NLService.class);
+        startService(intent);
     }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
-                mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-                // ...
-            } else {
-                Toast.makeText(this, "Sign in canceled", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-    }
-
 
     @Override
     protected void onResume() {
@@ -227,7 +160,6 @@ public class MainActivity extends AppCompatActivity  {
         }
         requestUsageStatsPermission();
 
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     public void initCheckBox() {

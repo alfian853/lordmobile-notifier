@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">LordMobile Notifier</string>
     <string name="app_note">
-        Lord Mobile Notifier v3.8\n\n
+        Lord Mobile Notifier v4\n\n
         1. Alarm will ringing only if lord mobile notification appear / Alarm hanya akan berbunyi jika notifikasi yang masuk.\n
         2. Online notification doesn\'t always appear, so be aware / Notifikasi online tidak selalu muncul, jadi hati-hatilah.\n
         3. Online notification only available in indonesian and english language / Notifikasi online hanya tersedia dalam bahasa indonesia dan inggris.\n
