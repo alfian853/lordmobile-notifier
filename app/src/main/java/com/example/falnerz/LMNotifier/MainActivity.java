@@ -204,16 +204,6 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-
-        }
         return super.onOptionsItemSelected(item);
     }
-
-    /*
-    * random String 10 karakter
-    * 5 dikalikan
-    * 5 karakter depan modulusnya
-    * */
-
 }
